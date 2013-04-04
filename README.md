@@ -70,7 +70,7 @@ vine.getTimeline(function (res) {
 ###Get Vines By Tag
 
 ```javascript
-vine.getTag('lbi', function (res) {
+vine.getTag({}, function (res) {
 	console.log('tags', res)
 })
 ```
@@ -78,7 +78,7 @@ vine.getTag('lbi', function (res) {
 ###Search For a User
 
 ```javascript
-vine.userSearch('lbi', function (res) {
+vine.userSearch({}, function (res) {
 	console.log('usersearch', res)
 })
 ```
