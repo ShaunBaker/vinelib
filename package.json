@@ -15,10 +15,10 @@
   ],
   "repository": {
     "type": "git",
-    "url": "http://github.com/caolan/async.git"
+    "url": "https://github.com/ShaunBaker/vinelib"
   },
   "bugs": {
-    "url": "http://github.com/caolan/async/issues"
+    "url": "https://github.com/ShaunBaker/vinelib/issues"
   },
   "dependencies": {
     "request": "2.16.6"
