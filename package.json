@@ -1,5 +1,5 @@
 {
-  "name": "vine_api",
+  "name": "vinelib",
   "version": "0.0.0",
   "description": "Small unofficial library to work with Vine",
   "main": "vine.js",
