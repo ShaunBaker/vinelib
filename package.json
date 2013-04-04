@@ -1,6 +1,6 @@
 {
   "name": "vinelib",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Small unofficial library to work with Vine",
   "main": "vine.js",
   "scripts": {},
@@ -30,5 +30,5 @@
     "name": "Shaun Baker",
     "email": "shaun@shaunbakerdesigns.co.uk"
   },
-  "license": "BSD"
+  "license": ""
 }
