@@ -1,0 +1,37 @@
+{
+  "name": "vine_api",
+  "version": "0.0.0",
+  "description": "Small unofficial library to work with Vine",
+  "main": "vine.js",
+  "scripts": {},
+  "repository": "",
+  "keywords": [
+    "Vine",
+    "api",
+    "twitter"
+  ],
+  "engines": [
+    "node >= 0.8.0"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/caolan/async.git"
+  },
+  "bugs": {
+    "url": "http://github.com/caolan/async/issues"
+  },
+  "dependencies": {
+    "request": "2.16.6"
+  },
+  "devDependencies": {},
+  "bin": {
+    "vine": "./bin/vine"
+  },  
+  "readme": "Small unofficial library to get vines\n",
+  "readmeFilename": "README.md",
+  "author": {
+    "name": "Shaun Baker",
+    "email": "shaun@shaunbakerdesigns.co.uk"
+  },
+  "license": "BSD"
+}
