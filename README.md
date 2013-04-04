@@ -27,7 +27,7 @@ vine.login({
 }, function (res) {});
 ```
 
-###getUserData
+###Get Users Data
 
 ```javascript
 vine.getUserData(function (res) {
@@ -35,8 +35,7 @@ vine.getUserData(function (res) {
 })
 ```
 
-
-###getPopular
+###Get Popular Vines
 
 ```javascript
 vine.getPopular(function (res) {
@@ -44,7 +43,7 @@ vine.getPopular(function (res) {
 })
 ```
 
-###getPromoted
+###Get Promoted Vines
 
 ```javascript
 vine.getPromoted(function (res) {
@@ -52,7 +51,7 @@ vine.getPromoted(function (res) {
 })
 ```
 
-###getNotifications
+###Get User Notifications
 
 ```javascript
 vine.getNotifications(function (res) {
@@ -60,7 +59,7 @@ vine.getNotifications(function (res) {
 })
 ```
 
-###getTimeline
+###Get Users Timeline
 
 ```javascript
 vine.getTimeline(function (res) {
@@ -68,7 +67,7 @@ vine.getTimeline(function (res) {
 })
 ```
 
-###getTag
+###Get Vines By Tag
 
 ```javascript
 vine.getTag('lbi', function (res) {
@@ -76,7 +75,7 @@ vine.getTag('lbi', function (res) {
 })
 ```
 
-###userSearch
+###Search For a User
 
 ```javascript
 vine.userSearch('lbi', function (res) {
@@ -84,7 +83,7 @@ vine.userSearch('lbi', function (res) {
 })
 ```
 
-###userLikes
+###Get A Users Likes
 
 ```javascript
 vine.userLikes({}, function (res) {
@@ -92,7 +91,7 @@ vine.userLikes({}, function (res) {
 })
 ```
 
-###userFollowing
+###Get Users That A User Is Following
 
 ```javascript
 vine.userFollowing({}, function (res) {
