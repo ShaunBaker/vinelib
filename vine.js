@@ -1,5 +1,5 @@
 var vine = {}
-	, request = require('request')
+  , request = require('request')
 
 
 
@@ -61,16 +61,16 @@ vine.userFollowing = null
 // List of URLs I have found
 vine.urls = {
 	loginUrl: 'https://api.vineapp.com/users/authenticate'
-	, logoutUrl: 'https://api.vineapp.com/users/authenticate'
-	, userUrl: 'https://api.vineapp.com/users/me'
+    , logoutUrl: 'https://api.vineapp.com/users/authenticate'
+    , userUrl: 'https://api.vineapp.com/users/me'
 	, popular: 'https://api.vineapp.com/timelines/popular'
 	, timeline: 'https://api.vineapp.com/timelines/users/'
 	, tag: 'https://api.vineapp.com/timelines/tags/'
 	, notifications: 'https://api.vineapp.com/users/'
 	, promoted: 'https://api.vineapp.com/timelines/promoted'
 	, userSearch: 'https://api.vineapp.com/users/search/'
-  , userLikes: 'https://api.vineapp.com/timelines/users/'
-  , userFollowing: 'https://api.vineapp.com/users/'
+  	, userLikes: 'https://api.vineapp.com/timelines/users/'
+  	, userFollowing: 'https://api.vineapp.com/users/'
 }
 
 
@@ -81,7 +81,7 @@ vine.login = function (options, fn) {
     , password = options.password || undefined
     , cb = fn || function () {}
 
-	if (!username || !password) {
+    if (!username || !password) {
 		return 'Email address/username and password are required'
 	}
 
