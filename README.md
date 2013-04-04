@@ -7,7 +7,7 @@ This is not in any part official and should be used at your own risk. Given ther
 ##Installation
 
 <pre>
-  npm install request
+  npm install vinelib
 </pre>
 
 ##Examples
