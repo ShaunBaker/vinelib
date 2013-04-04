@@ -70,7 +70,7 @@ vine.getTimeline(function (res) {
 ###Get Vines By Tag
 
 ```javascript
-vine.getTag({}, function (res) {
+vine.getTag('github', function (res) {
 	console.log('tags', res)
 })
 ```
@@ -78,7 +78,7 @@ vine.getTag({}, function (res) {
 ###Search For a User
 
 ```javascript
-vine.userSearch({}, function (res) {
+vine.userSearch('github', function (res) {
 	console.log('usersearch', res)
 })
 ```
