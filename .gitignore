@@ -3,3 +3,4 @@ bin/*
 node_modules
 vinelib.sublime-project
 vinelib.sublime-workspace
+components

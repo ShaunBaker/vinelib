@@ -1,0 +1,16 @@
+{
+  "name": "vinelib",
+  "repo": "ShaunBaker/vinelib",
+  "description": "",
+  "version": "0.0.1",
+  "keywords": [],
+  "dependencies": {
+    "visionmedia/superagent": "*",
+    "component/calendar": "*"
+  },
+  "development": {},
+  "license": "MIT",
+  "scripts": [
+    "vine.js"
+  ]
+}
