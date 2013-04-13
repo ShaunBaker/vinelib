@@ -1,10 +1,13 @@
 {
   "name": "vinelib",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Small unofficial library to work with Vine",
   "main": "vine.js",
   "scripts": {},
-  "repository": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShaunBaker/vinelib"
+  },
   "keywords": [
     "Vine",
     "api",
@@ -13,17 +16,14 @@
   "engines": [
     "node >= 0.8.0"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ShaunBaker/vinelib"
-  },
   "bugs": {
     "url": "https://github.com/ShaunBaker/vinelib/issues"
   },
   "dependencies": {
-    "request": "2.16.6"
+    "superagent": "~0.14.1"
   },
-  "devDependencies": {}, 
+  "devDependencies": {
+  },
   "readme": "Small unofficial library to get vines\n",
   "readmeFilename": "README.md",
   "author": {

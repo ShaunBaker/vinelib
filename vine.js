@@ -1,5 +1,5 @@
 var vine = {}
-  , request = require('request')
+  , superagent = require('superagent')
 
 
 
@@ -60,17 +60,17 @@ vine.userFollowing = null
 
 // List of URLs I have found
 vine.urls = {
-	loginUrl: 'https://api.vineapp.com/users/authenticate'
-    , logoutUrl: 'https://api.vineapp.com/users/authenticate'
-    , userUrl: 'https://api.vineapp.com/users/me'
-	, popular: 'https://api.vineapp.com/timelines/popular'
-	, timeline: 'https://api.vineapp.com/timelines/users/'
-	, tag: 'https://api.vineapp.com/timelines/tags/'
-	, notifications: 'https://api.vineapp.com/users/'
-	, promoted: 'https://api.vineapp.com/timelines/promoted'
-	, userSearch: 'https://api.vineapp.com/users/search/'
-  	, userLikes: 'https://api.vineapp.com/timelines/users/'
-  	, userFollowing: 'https://api.vineapp.com/users/'
+  loginUrl: 'https://api.vineapp.com/users/authenticate'
+  , logoutUrl: 'https://api.vineapp.com/users/authenticate'
+  , userUrl: 'https://api.vineapp.com/users/me'
+  , popular: 'https://api.vineapp.com/timelines/popular'
+  , timeline: 'https://api.vineapp.com/timelines/users/'
+  , tag: 'https://api.vineapp.com/timelines/tags/'
+  , notifications: 'https://api.vineapp.com/users/'
+  , promoted: 'https://api.vineapp.com/timelines/promoted'
+  , userSearch: 'https://api.vineapp.com/users/search/'
+  , userLikes: 'https://api.vineapp.com/timelines/users/'
+  , userFollowing: 'https://api.vineapp.com/users/'
 }
 
 
@@ -82,29 +82,27 @@ vine.login = function (options, fn) {
     , cb = fn || function () {}
 
     if (!username || !password) {
-		return 'Email address/username and password are required'
-	}
+    return 'Email address/username and password are required'
+  }
 
-	request.post( vine.urls.loginUrl, {
-		form:{
-			username: username
-			, password: password
-		}
-	}, function (err, res, body) {
-	 	var json = JSON.parse(body)
+  superagent
+    .post(vine.urls.loginUrl)
+    .send('username='+username)
+    .send('password='+password)
+    .end(function(res) {
 
-		if ( !json.success ) {
-			vine.loggedIn = false
-			return json.error
-		}
+      if ( !res.body.success ) {
+        vine.loggedIn = false
+        return res.body.error
+      }
 
-		vine.session = json.data
+      vine.session = res.body.data
 
-		vine.loggedIn = true
+      vine.loggedIn = true
 
-		return cb( vine.session )
+      return cb( vine.session )
 
-	})
+    })
 
 }
 
@@ -112,23 +110,18 @@ vine.login = function (options, fn) {
 
 vine.logout = function (fn) {
 
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var cb = fn || function () {}
 
-	request.del( vine.urls.logoutUrl, {
-		headers:{
-			'vine-session-id': vine.session.data.key
-		}
-	}, function (err, res, body) {
-
-		var json = JSON.parse(body)
-
-		return cb( json.data )
-
-	})
+  superagent
+    .delete(vine.urls.logoutUrl)
+    .set('vine-session-id', vine.session.data.key)
+    .end(function(res) {
+      return cb( res.body.data )
+    })
 
 }
 
@@ -136,60 +129,54 @@ vine.logout = function (fn) {
 
 vine.getUserData = function (fn) {
 
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var cb = fn || function () {}
 
-	request.get( vine.urls.userUrl, {
-		headers:{
-			'vine-session-id': vine.session.key
-		}
-	}, function (err, res, body) {
+  superagent
+    .get(vine.urls.userUrl)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-		var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-		if ( !json.success ) {
-			return vine.user.err
-		}
+      vine.user = res.body.data
 
-		vine.user = json.data
+      return cb( vine.user )
 
-		return cb( vine.user )
-
-	})
+    })
 
 }
 
 
 
 vine.getTimeline = function (fn) {
-	
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var cb = fn || function () {}
     , url = vine.urls.timeline + vine.session.userId
 
-	request.get( url, {
-		headers:{
-			'vine-session-id': vine.session.key
-		}
-	}, function (err, res, body) {
+  superagent
+    .get(url)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-		var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-		if ( !json.success ) {
-			return json.error
-		}
+      vine.timeline = res.body.data
 
-		vine.timeline = json.data
+      return cb( vine.timeline )
 
-		return cb( vine.timeline )
-
-	})
+    })
 
 }
 
@@ -197,29 +184,26 @@ vine.getTimeline = function (fn) {
 
 vine.getPopular = function (fn) {
 
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var cb = fn || function () {}
 
-	request.get( vine.urls.popular, {
-		headers:{
-			'vine-session-id': vine.session.key
-		}
-	}, function (err, res, body) {
+  superagent
+    .get(vine.urls.popular)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-		var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-		if ( !json.success ) {
-			return json.error
-		}
+      vine.popular = res.body.data
 
-		vine.popular = json.data
+      return cb( vine.popular )
 
-	  return cb( vine.popular )
-
-	})
+    })
 
 }
 
@@ -227,36 +211,33 @@ vine.getPopular = function (fn) {
 
 vine.getTag = function (options, fn) {
 
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var tag = options.tag || undefined
 
-	if (!tag) {
-		return 'A tag must be provided'
-	}
+  if (!tag) {
+    return 'A tag must be provided'
+  }
 
   var cb = fn || function () {}
     , url = vine.urls.tag + tag
 
-	request.get( vine.urls.tag + tag, {
-		headers:{
-			'vine-session-id': vine.session.key
-		}
-	}, function (err, res, body) {
+  superagent
+    .get(vine.urls.tag + tag)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-		var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-		if ( !json.success ) {
-			return json.error
-		}
+      vine.tags = res.body.data
 
-		vine.tags = json.data
+      return cb( vine.tags )
 
-		return cb( vine.tags )
-
-	})
+    })
 
 }
 
@@ -264,30 +245,27 @@ vine.getTag = function (options, fn) {
 
 vine.getNotifications = function (fn) {
 
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var cb = fn || function () {}
     , url = vine.urls.notifications + vine.session.userId + '/pendingNotificationsCount'
 
-	request.get( url, {
-		headers:{
-			'vine-session-id': vine.session.key
-		}
-	}, function (err, res, body) {
+  superagent
+    .get(url)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-		var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-		if ( !json.success ) {
-			return json.error
-		}
+      vine.notifications = res.body.data
 
-		vine.notifications = json.data
+      return cb( vine.notifications )
 
-		return cb( vine.notifications )
-
-	})
+    })
 
 }
 
@@ -295,29 +273,26 @@ vine.getNotifications = function (fn) {
 
 vine.getPromoted = function (fn) {
 
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var cb = fn || function () {}
 
-	request.get( vine.urls.promoted, {
-		headers:{
-			'vine-session-id': vine.session.key
-		}
-	}, function (err, res, body) {
+  superagent
+    .get(vine.urls.promoted)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-		var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-		if ( !json.success ) {
-			return json.error
-		}
+      vine.promoted = res.body.data
 
-		vine.promoted = json.data
+      return cb( vine.promoted )
 
-		return cb( vine.promoted )
-
-	})
+    })
 
 }
 
@@ -327,34 +302,31 @@ vine.userSearch = function (options, fn) {
 
   var searchTerm = options.searchTerm || undefined
 
-	if (!searchTerm) {
-		return 'A search term is required'
-	}
+  if (!searchTerm) {
+    return 'A search term is required'
+  }
 
-	if (vine.loggedIn === false) {
-		return 'User is not logged in'
-	}
+  if (vine.loggedIn === false) {
+    return 'User is not logged in'
+  }
 
   var cb = fn || function () {}
     , url = vine.urls.userSearch + searchTerm
 
-	request.get( url, {
-		headers:{
-			'vine-session-id': vine.session.key
-		}		
-	}, function (err, res, body) {
+  superagent
+    .get(url)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-		var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-		if ( !json.success ) {
-			return json.error
-		}
+      vine.userSearchResults = res.body.data
 
-		vine.userSearchResults = json.data
+      return cb( vine.userSearchResults )
 
-		return cb( vine.userSearchResults )
-
-	})
+    })
 
 }
 
@@ -370,23 +342,20 @@ vine.userLikes = function (options, fn) {
     , cb = fn || function () {}
     , url = vine.urls.userLikes + id + '/likes'
 
-  request.get( url, {
-    headers:{
-      'vine-session-id': vine.session.key
-    }   
-  }, function (err, res, body) {
+  superagent
+    .get(url)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-    var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-    if ( !json.success ) {
-      return json.error
-    }
+      vine.userLikeResults = res.body.data
 
-    vine.userLikeResults = json.data
+      return cb( vine.userLikeResults )
 
-    return cb( vine.userLikeResults )
-
-  })
+    })
 
 }
 
@@ -402,23 +371,20 @@ vine.userFollowing = function (options, fn) {
     , cb = fn || function () {}
     , url = vine.urls.userFollowing + id + '/following/suggested/twitter'
 
-  request.get( url, {
-    headers:{
-      'vine-session-id': vine.session.key
-    }   
-  }, function (err, res, body) {
+  superagent
+    .get(url)
+    .set('vine-session-id', vine.session.key)
+    .end(function(res){
 
-    var json = JSON.parse(body)
+      if ( !res.body.success ) {
+        return res.body.error
+      }
 
-    if ( !json.success ) {
-      return json.error
-    }
+      vine.userFollowing = res.body.data
 
-    vine.userFollowing = json.data
+      return cb( vine.userFollowing )
 
-    return cb( vine.userFollowing )
-
-  })
+    })
 
 }
 
