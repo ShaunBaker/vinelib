@@ -215,7 +215,7 @@ vine.getTag = function (options, fn) {
     return 'User is not logged in'
   }
 
-  var tag = options.tag || undefined
+  var tag = options || undefined
 
   if (!tag) {
     return 'A tag must be provided'
